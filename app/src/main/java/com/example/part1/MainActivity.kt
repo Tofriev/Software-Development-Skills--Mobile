@@ -4,8 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -18,11 +21,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.part1.ui.theme.Part1Theme
 
 
@@ -31,9 +40,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Part1Theme {
-                // A surface container using the 'background' color from the theme
+
                 Surface(
-                   // modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                 Calculator()
@@ -58,14 +66,28 @@ fun Calculator() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(30.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+
     ){
+        Text(
+            text = "The Summing App",
+            style = TextStyle(
+                fontSize = 24.sp,
+                fontWeight = FontWeight.ExtraBold
+                )
+            )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         TextField(
             value = num1,
             onValueChange = { value ->
                 num1 = value
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next),
             label = { Text("Number 1") },
             modifier = Modifier.padding(20.dp),
             maxLines = 1
@@ -76,15 +98,20 @@ fun Calculator() {
             onValueChange = { value ->
                 num2 = value
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done),
             label = { Text("Number 2") },
             modifier = Modifier.padding(20.dp),
             maxLines = 1
         )
 
+        Spacer(modifier = Modifier.height(100.dp))
+
         Text(
-            text = "Sum: ${sum.value}"
-        )
+                text = "Sum: ${sum.value}"
+            )
+
     }
 }
 
