@@ -66,7 +66,7 @@ fun Calculator() {
                 num1 = value
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            label = { Text("Number 1") },
+            label = { Text("Number 1111") },
             modifier = Modifier.padding(20.dp),
             maxLines = 1
         )
