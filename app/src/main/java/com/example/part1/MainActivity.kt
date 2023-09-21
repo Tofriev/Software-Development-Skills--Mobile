@@ -25,76 +25,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.part1.ui.theme.Part1Theme
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Part1Theme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                   // modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                Calculator()
-                }
-            }
+            Navigation()
         }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun Calculator() {
-    var num1 by remember { mutableStateOf("") }
-    var num2 by remember { mutableStateOf("") }
-
-    val sum = remember { derivedStateOf {
-        val intNum1 = num1.toIntOrNull() ?: 0
-        val intNum2 = num2.toIntOrNull() ?: 0
-        intNum1 + intNum2
-    } }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ){
-        TextField(
-            value = num1,
-            onValueChange = { value ->
-                num1 = value
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            label = { Text("Number 1111") },
-            modifier = Modifier.padding(20.dp),
-            maxLines = 1
-        )
-
-        TextField(
-            value = num2,
-            onValueChange = { value ->
-                num2 = value
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            label = { Text("Number 2") },
-            modifier = Modifier.padding(20.dp),
-            maxLines = 1
-        )
-
-        Text(
-            text = "Sum: ${sum.value}"
-        )
-    }
-}
-
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun TextPreview() {
-    Part1Theme {
-        Calculator()
     }
 }
