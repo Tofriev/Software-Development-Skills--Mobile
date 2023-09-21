@@ -28,10 +28,17 @@ import org.w3c.dom.Text
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,11 +49,15 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavType
 import androidx.navigation.compose.navArgument
 
+data class MarketplaceItem(val name: String, val description: String, val price: String, val onClick: () -> Unit)
 
 @Composable
 fun Navigation() {
@@ -66,12 +77,25 @@ fun Navigation() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavController){
-    val ctx = LocalContext.current
+
+    val items = listOf(
+        MarketplaceItem("Peach", "Fresh Peaches from a local Farmer", "$10"){
+            navController.navigate(Screen.HelloScreen.route)
+        },
+        MarketplaceItem("Corn", "This corn is great for BBQ", "$15"){
+
+        },
+        MarketplaceItem("Kiwi", "Very rich in Vitamin C!", "$20"){
+
+        },
+
+    )
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Quick App Launcher",
+                    Text(text = "Marketplace",
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -82,40 +106,60 @@ fun MainScreen(navController: NavController){
                 ),
             )
         },
-        content = { innerPadding ->
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
+        content = {innerPadding->
+            LazyColumn(
+                modifier = Modifier.padding(innerPadding)
             ) {
-
-                Button(
-                    onClick = {
-                        navController.navigate(Screen.HelloScreen.route)
-                    },
-                ) {
-                    Text(text = "To Hello Screen")
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Button(
-                    onClick = {
-                        val urlIntent = Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("https://www.google.com")
-                        )
-                        ctx.startActivity(urlIntent)
-                    }
-                ) {
-                    Text(text = "Open Google")
+                itemsIndexed(items) { index, item ->
+                    // Wrap each row with Modifier.clickable and pass the action lambda
+                    MarketplaceItemRow(item = item, onItemClick = item.onClick)
                 }
             }
         })
 }
 
+
+@Composable
+fun MarketplaceItemRow(item: MarketplaceItem, onItemClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .clickable { onItemClick() },
+        verticalAlignment = Alignment.Top
+
+
+    ) {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            // Item name
+            Text(
+                text = item.name,
+                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp),
+            )
+
+            // Description
+            Text(
+                text = item.description,
+                style = TextStyle(fontSize = 14.sp),
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
+
+        // Price
+        Text(
+            text = item.price,
+            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp),
+            modifier = Modifier.align(Alignment.CenterVertically)
+        )
+    }
+    Divider(
+        color = Color.LightGray,
+        thickness = 1.dp,
+        modifier = Modifier.padding(top = 16.dp)
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -152,6 +196,7 @@ fun HelloScreen(navController: NavController){
                     .fillMaxSize()
                     .padding(innerPadding)
             ){
+
                 Text(text = "Hello World!")
             }
         })
