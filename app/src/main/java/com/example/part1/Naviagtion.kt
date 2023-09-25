@@ -67,9 +67,19 @@ fun Navigation() {
             MainScreen(navController = navController)
         }
         composable(
-            route = Screen.HelloScreen.route)
+            route = Screen.PeachScreen.route)
         {
-            HelloScreen(navController = navController)
+            PeachScreen(navController = navController)
+        }
+        composable(
+            route = Screen.CornScreen.route)
+        {
+            CornScreen(navController = navController)
+        }
+        composable(
+            route = Screen.KiwiScreen.route)
+        {
+            KiwiScreen(navController = navController)
         }
     }
 }
@@ -79,14 +89,14 @@ fun Navigation() {
 fun MainScreen(navController: NavController){
 
     val items = listOf(
-        MarketplaceItem("Peach", "Fresh Peaches from a local Farmer", "$10"){
-            navController.navigate(Screen.HelloScreen.route)
+        MarketplaceItem("Peach", "Don't tell Browser!", "$10"){
+            navController.navigate(Screen.PeachScreen.route)
         },
         MarketplaceItem("Corn", "This corn is great for BBQ", "$15"){
-
+            navController.navigate(Screen.CornScreen.route)
         },
         MarketplaceItem("Kiwi", "Very rich in Vitamin C!", "$20"){
-
+            navController.navigate(Screen.KiwiScreen.route)
         },
 
     )
@@ -163,12 +173,12 @@ fun MarketplaceItemRow(item: MarketplaceItem, onItemClick: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HelloScreen(navController: NavController){
+fun PeachScreen(navController: NavController){
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Hello Screen",
+                    Text(text = "Peach",
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -196,8 +206,102 @@ fun HelloScreen(navController: NavController){
                     .fillMaxSize()
                     .padding(innerPadding)
             ){
+                Image(
+                    painter = painterResource(id = R.drawable.peach),
+                    contentDescription = "Peach Image",
+                    modifier = Modifier.size(200.dp)
+                )
+            }
+        })
+}
 
-                Text(text = "Hello World!")
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CornScreen(navController: NavController){
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = "Corn",
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                            tint = Color.White
+                        )
+                    }
+                },
+
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = Color.White,
+                ),
+            )
+        },
+        content = { innerPadding ->
+            Box(contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ){
+                Image(
+                    painter = painterResource(id = R.drawable.corn),
+                    contentDescription = "Corn Image",
+                    modifier = Modifier.size(200.dp)
+                )
+            }
+        })
+}
+
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun KiwiScreen(navController: NavController){
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = "Corn",
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                            tint = Color.White
+                        )
+                    }
+                },
+
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = Color.White,
+                ),
+            )
+        },
+        content = { innerPadding ->
+            Box(contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ){
+                Image(
+                    painter = painterResource(id = R.drawable.kiwi),
+                    contentDescription = "Kiwi Image",
+                    modifier = Modifier.size(200.dp)
+                )
             }
         })
 }
